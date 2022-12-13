@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  govee:
+    build: .
+    privileged: true
+    network_mode: host
+    environment:
+      - MQTT_URI=192.168.1.244
