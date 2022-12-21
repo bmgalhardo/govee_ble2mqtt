@@ -7,3 +7,4 @@ services:
     network_mode: host
     environment:
       - MQTT_URI=192.168.1.244
+      - MQTT_PREFIX=homeassistant/sensor
