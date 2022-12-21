@@ -1,4 +1,4 @@
-import os
+import argparse
 
 from bluepy.btle import Scanner
 import paho.mqtt.client as mqtt
@@ -6,13 +6,15 @@ import paho.mqtt.client as mqtt
 from utils import ScanDelegate
 
 if __name__ == "__main__":
-    client = mqtt.Client()
-    mqtt_prefix = os.getenv("MQTT_PREFIX", "homeassistant/sensor")
-    mqtt_uri = os.getenv("MQTT_URI", "localhost")
-    mqtt_port = int(os.getenv("MQTT_PORT", 1883))
+    parser = argparse.ArgumentParser(description='Process raw data acquisition measurements')
+    parser.add_argument('--host', help='mqtt uri', default="localhost")
+    parser.add_argument('--port', help='mqtt port', default="1883")
+    parser.add_argument('--topic', help='mqtt topic', default="homeassistant/sensor")
+    args = parser.parse_args()
 
-    scanner = Scanner().withDelegate(ScanDelegate(client, mqtt_prefix))
-    client.connect(mqtt_uri, mqtt_port, 60)
+    client = mqtt.Client()
+    scanner = Scanner().withDelegate(ScanDelegate(client, args.topic))
+    client.connect(args.host, int(args.port), 60)
 
     while True:
         scanner.scan(60.0, passive=True)
