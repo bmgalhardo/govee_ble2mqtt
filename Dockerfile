@@ -1,4 +1,4 @@
-FROM python:3.4-slim
+FROM python:3.5-slim
 
 RUN apt-get update -y && \
     apt-get install -y make libglib2.0-dev build-essential git bluez

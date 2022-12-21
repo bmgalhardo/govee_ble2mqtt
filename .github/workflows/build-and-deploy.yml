@@ -21,3 +21,11 @@ jobs:
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u bgalhardo --password-stdin
     - name: Push image
       run: docker push ${{ env.REPO_NAME }}:${{ env.IMAGE_TAG }}
+  compile:
+    runs-on: bgalhardo/govee_ble2mqtt
+    steps:
+    - uses: actions/checkout@v3
+    - name: install dependencies
+      run: | 
+        pip install pyinstaller
+        pyinstaller main.py
